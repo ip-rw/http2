@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"crypto/tls"
 	"errors"
-	"fmt"
 	"net"
 	"sync/atomic"
 	"time"
@@ -86,11 +85,12 @@ func Dial(addr string, tlsConfig *tls.Config) (*Client, error) {
 	}
 	return NewClient(tlsConn)
 }
-func NewClient(tlsConn *tls.Conn) (*Client, error) {
+
+func NewClient(c net.Conn) (*Client, error) {
 	cl := &Client{
-		c:      tlsConn,
-		br:     bufio.NewReader(tlsConn),
-		bw:     bufio.NewWriter(tlsConn),
+		c:      c,
+		br:     bufio.NewReader(c),
+		bw:     bufio.NewWriter(c),
 		writer: make(chan *FrameHeader, 128),
 		adptCh: make(chan ClientAdaptor, 128),
 		inData: make(chan *FrameHeader, 128),
@@ -114,7 +114,7 @@ func NewClient(tlsConn *tls.Conn) (*Client, error) {
 	fr, err := ReadFrameFrom(cl.br)
 	if fr.Type() != FrameSettings {
 		c.Close()
-		return nil, fmt.Errorf("unexpected frame, expected settings, got %s", fr.Type())
+		return nil, err
 	}
 
 	go cl.writeLoop()
@@ -438,3 +438,4 @@ func writeError(strm *Stream, err error, writer chan<- *FrameHeader) {
 	writeReset(strm.ID(), code, writer)
 	strm.SetState(StreamStateClosed)
 }
+
