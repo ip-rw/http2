@@ -7,7 +7,7 @@ import (
 	"math/rand"
 	"testing"
 
-	"github.com/dgrr/http2"
+	"github.com/ip-rw/http2"
 )
 
 func TestClientWriteOrder(t *testing.T) {

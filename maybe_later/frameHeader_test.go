@@ -6,8 +6,8 @@ import (
 	"io"
 	"testing"
 
-	"github.com/dgrr/http2"
-	"github.com/dgrr/http2/http2utils"
+	"github.com/ip-rw/http2"
+	"github.com/ip-rw/http2/http2utils"
 )
 
 const (

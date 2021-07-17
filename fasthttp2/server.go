@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/dgrr/http2"
+	"github.com/ip-rw/http2"
 	"github.com/valyala/fasthttp"
 )
 
