@@ -84,7 +84,9 @@ func Dial(addr string, tlsConfig *tls.Config) (*Client, error) {
 		c.Close()
 		return nil, ErrServerSupport
 	}
-
+	return NewClient(tlsConn)
+}
+func NewClient(tlsConn *tls.Conn) (*Client, error) {
 	cl := &Client{
 		c:      tlsConn,
 		br:     bufio.NewReader(tlsConn),
