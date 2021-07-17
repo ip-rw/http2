@@ -182,7 +182,7 @@ func (c *Client) readLoop() {
 
 	for {
 		fr, err := ReadFrameFrom(c.br)
-		if err != nil {
+		if err != nil || fr == nil {
 			c.c.Close()
 			return
 		}
