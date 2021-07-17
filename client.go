@@ -183,8 +183,9 @@ func (c *Client) readLoop() {
 	for {
 		fr, err := ReadFrameFrom(c.br)
 		if err != nil {
-			// TODO: handle
-			panic(err)
+			c.inData <- fr
+			c.c.Close()
+			return
 		}
 
 		if fr.Stream() != 0 {
